@@ -16,10 +16,10 @@ import mysql.connector
 
 def conectar():
     conexao = mysql.connector.connect(
-        host="localhost",    # era: host=mysql  ❌
+        host="localhost",    
         port=3306,
-        user="root",         # era: user=root   ❌
-        password="aluno",    # era: password=aluno ❌
+        user="root",         
+        password="aluno",    
         database="dashboard_formativa"
     )
     return conexao
