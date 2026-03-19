@@ -1,5 +1,5 @@
 const API_NUVEM = "https://api.thingspeak.com/channels/3305472/feeds.json?api_key=ONMQFXRGT1IVYGCT&results=10"; 
-const API_MYSQL = "http://127.0.0.1:5050/dadossql";
+const API_MYSQL = "http://localhost:5050/dadossql";
 
 const tbodyNuvem = document.querySelector(".table-nuvem");
 const tbodySql = document.querySelector(".table-sql");

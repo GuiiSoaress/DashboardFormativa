@@ -52,11 +52,10 @@ services:
       FLASK_DEBUG: ${FLASK_DEBUG}
 
     ports:
-      - "5000:5000"
+      - "5050:5050"
 
     volumes: 
-      - ./app
-
+      - ./app:/app
 volumes: 
   mysql_data: 
   

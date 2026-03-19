@@ -1,3 +1,5 @@
+
+
 USE dashboard_formativa;
 
 CREATE TABLE IF NOT EXISTS dados (
