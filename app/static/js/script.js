@@ -4,13 +4,24 @@ const API_MYSQL = "http://127.0.0.1:5050/dadossql";
 const tbodyNuvem = document.querySelector(".table-nuvem");
 const tbodySql = document.querySelector(".table-sql");
 const btn = document.querySelector(".btn-leitura");
+const ultimaTemperatura = document.querySelector(".ultima-temperatura");
+const ultimaUmidade = document.querySelector(".ultima-umidade");
+const quantidadeDisplay = document.querySelector(".quantidade");
 
 async function atualizaTableNuvem() {
     try {
         const response = await fetch(API_NUVEM);
         const data = await response.json();
         console.log(data);
-        tbodyNuvem.innerHTML = ""; 
+        tbodyNuvem.innerHTML = "";
+        
+        if (data.feeds && data.feeds.length > 0) {
+            const ultimoRegistro = data.feeds[data.feeds.length - 1];
+            
+            ultimaTemperatura.textContent = `${ultimoRegistro.field1 || '0'}°C`;
+            ultimaUmidade.textContent = `${ultimoRegistro.field2 || '0'}%`;
+            quantidadeDisplay.innerHTML = `${data.feeds.length}`; 
+        }
 
         data.feeds.forEach(dados => {
             const tr = document.createElement('tr');
@@ -34,6 +45,8 @@ async function atualizaTableSql() {
         const data = await response.json();
         console.log(data);
         tbodySql.innerHTML = ""; 
+
+
 
         data.forEach(dados => {
             const tr = document.createElement('tr');
