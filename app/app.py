@@ -5,8 +5,15 @@ import random
 import time 
 from configdb import conectar
 from datetime import datetime, timezone
+import threading
 
-API_KEY = "X8PFUG78LVKXAV4"
+app = Flask(__name__)
+CORS(app)
+
+
+API_KEY = "PV2GGDZ16PN1XFIJ"
+channel_id = "3305459"
+numero_de_leituras = 10
 
 def salvar_banco(temperatura, umidade, entry):
     agora = datetime.now(timezone.utc)
@@ -36,21 +43,52 @@ def enviar_dados(temperatura, umidade):
     print("Umidade:", umidade, "%")
     
     print("Resposta da API:", resposta.text)
-    
-    print("-------------------------------")
-    
+
     entry = int(resposta.text)
 
     if (entry > 0 ):
         salvar_banco(temperatura, umidade, entry)
     else:
         print("Erro ao enviar dados ao thingSpeak")
+    
+    print("-------------------------------")
+
+def gerar_dados():
+    while True:
+        temperatura = round(random.uniform(20, 30), 2)
+        umidade = round(random.uniform(50, 70), 2)
+        
+        enviar_dados(temperatura, umidade)
+        
+        time.sleep(15)
+
+#rota para a pagina inicial
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/dadossql")
+def get_dados():
+    
+    conexao = conectar()
+    cursor = conexao.cursor(dictionary=True)
+    
+    cursor.execute("SELECT * from dados;")
+    
+    dados = cursor.fetchall()
+
+    cursor.close()
+    conexao.close()
+    
+    print(jsonify(dados))
+    return jsonify(dados)
+
+if __name__ == "__main__":
+    t = threading.Thread(target=gerar_dados, daemon=True) 
+    t.start()
+    app.run(host="127.0.0.1", port=5050, debug=True, use_reloader=False)
+    
 
 
-while True:
-    temperatura = round(random.uniform(20, 30), 2)
-    umidade = round(random.uniform(50, 70), 2)
     
-    enviar_dados(temperatura, umidade)
     
-    time.sleep(15)

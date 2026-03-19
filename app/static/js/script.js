@@ -1,21 +1,21 @@
-const API_NUVEM = ""; 
-const API_MYSQL = "";
+const API_NUVEM = "https://api.thingspeak.com/channels/3305459/feeds.json?api_key=SDK2CC9LVGPN72Z4&results=10"; 
+const API_MYSQL = "http://127.0.0.1:5050/dadossql";
 
-const tbodyNuvem = document.querySelector(".table-nuvem tbody");
-const tbodySql = document.querySelector(".table-sql tbody");
+const tbodyNuvem = document.querySelector(".table-nuvem");
+const tbodySql = document.querySelector(".table-sql");
 const btn = document.querySelector(".btn-leitura");
 
 async function atualizaTableNuvem() {
     try {
         const response = await fetch(API_NUVEM);
         const data = await response.json();
-
+        console.log(data);
         tbodyNuvem.innerHTML = ""; 
 
-        data.forEach(dados => {
+        data.feeds.forEach(dados => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${dados.id || '--'}</td>
+                <td>${dados.entry_id || '--'}</td>
                 <td>${dados.created_at || '--'}</td>
                 <td>${dados.entry_id || '--'}</td>
                 <td>${dados.field1 || '°C'}°C</td>
@@ -32,7 +32,7 @@ async function atualizaTableSql() {
     try {
         const response = await fetch(API_MYSQL);
         const data = await response.json();
-
+        console.log(data);
         tbodySql.innerHTML = ""; 
 
         data.forEach(dados => {
@@ -40,7 +40,7 @@ async function atualizaTableSql() {
             tr.innerHTML = `
                 <td>${dados.id}</td>
                 <td>${dados.entry}</td>
-                <td>${dados.data}</td>
+                <td>${dados.data_hora}</td>
                 <td>${dados.temperatura}°C</td>
                 <td>${dados.umidade}%</td>
             `;
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.textContent = "Carregando...";
         btn.disabled = true;
 
-        await (atualizaTableNuvem(), atualizaTableSql());
+        await Promise.all([atualizaTableNuvem(), atualizaTableSql()]);
 
         btn.textContent = "Nova Leitura";
         btn.disabled = false;
