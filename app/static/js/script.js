@@ -1,4 +1,4 @@
-const API_NUVEM = "https://api.thingspeak.com/channels/3305459/feeds.json?api_key=SDK2CC9LVGPN72Z4&results=10"; 
+const API_NUVEM = "https://api.thingspeak.com/channels/3305472/feeds.json?api_key=ONMQFXRGT1IVYGCT&results=10"; 
 const API_MYSQL = "http://127.0.0.1:5050/dadossql";
 
 const tbodyNuvem = document.querySelector(".table-nuvem");

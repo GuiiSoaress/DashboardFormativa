@@ -3,7 +3,7 @@ import requests
 from flask_cors import CORS
 import random
 import time 
-from configdb import conectar
+from connectDb import conectar
 from datetime import datetime, timezone
 import threading
 
@@ -11,8 +11,8 @@ app = Flask(__name__)
 CORS(app)
 
 
-API_KEY = "PV2GGDZ16PN1XFIJ"
-channel_id = "3305459"
+API_KEY = "ONMQFXRGT1IVYGCT"
+channel_id = "3305472"
 numero_de_leituras = 10
 
 def salvar_banco(temperatura, umidade, entry):
